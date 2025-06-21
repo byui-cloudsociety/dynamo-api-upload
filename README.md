@@ -385,38 +385,7 @@ For each method (POST /upload, GET /download/{filename}, GET /files):
 
 ## Step 4: Test Your API
 
-### 4.1 Test File Upload
-
-Use a tool like Postman or curl to test. First, encode your test content to base64:
-
-```bash
-echo "Hello World!" | base64
-```
-
-This should return: `SGVsbG8gV29ybGQhCg==`
-
-Then test the upload:
-
-```bash
-curl -X POST https://your-api-id.execute-api.region.amazonaws.com/prod/upload \
-  -H "Content-Type: application/json" \
-  -d '{
-    "filename": "test.txt",
-    "content": "SGVsbG8gV29ybGQhCg=="
-  }'
-```
-
-### 4.2 Test File List
-
-```bash
-curl https://your-api-id.execute-api.region.amazonaws.com/prod/files
-```
-
-### 4.3 Test File Download
-
-```bash
-curl https://your-api-id.execute-api.region.amazonaws.com/prod/download/test.txt
-```
+Go to [https://lab.bradyhodge.com/](https://lab.bradyhodge.com/) 
 
 ## Step 5: Monitor and Debug
 
