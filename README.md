@@ -6,7 +6,7 @@
 
 1. Navigate to the DynamoDB service in your AWS console
 2. Click "Create table"
-3. Table name: `your-name-file-storage-lab-[random-number]`
+3. Table name: `your-name-file-storage-lab`
 4. Partition key: `filename` (String)
 5. Leave sort key empty
 6. Use default settings for the rest
