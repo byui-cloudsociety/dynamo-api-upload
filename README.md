@@ -144,10 +144,17 @@ def lambda_handler(event, context):
 import json
 import boto3
 from botocore.exceptions import ClientError
+from decimal import Decimal
 
 dynamodb = boto3.resource('dynamodb')
 TABLE_NAME = 'your-table-name-here'  # Replace with your table name
 table = dynamodb.Table(TABLE_NAME)
+
+def decimal_default(obj):
+    """Convert Decimal objects to int or float for JSON serialization"""
+    if isinstance(obj, Decimal):
+        return int(obj) if obj % 1 == 0 else float(obj)
+    raise TypeError
 
 def lambda_handler(event, context):
     try:
@@ -197,7 +204,7 @@ def lambda_handler(event, context):
                 'content_type': item.get('content_type', 'application/octet-stream'),
                 'size': item.get('size', 0),
                 'uploaded_at': item.get('uploaded_at', '')
-            })
+            }, default=decimal_default)
         }
         
     except ClientError as e:
@@ -235,10 +242,17 @@ def lambda_handler(event, context):
 import json
 import boto3
 from botocore.exceptions import ClientError
+from decimal import Decimal
 
 dynamodb = boto3.resource('dynamodb')
 TABLE_NAME = 'your-table-name-here'  # Replace with your table name
 table = dynamodb.Table(TABLE_NAME)
+
+def decimal_default(obj):
+    """Convert Decimal objects to int or float for JSON serialization"""
+    if isinstance(obj, Decimal):
+        return int(obj) if obj % 1 == 0 else float(obj)
+    raise TypeError
 
 def lambda_handler(event, context):
     try:
@@ -254,7 +268,7 @@ def lambda_handler(event, context):
         for item in response['Items']:
             files.append({
                 'filename': item['filename'],
-                'size': int(item.get('size', 0)),
+                'size': item.get('size', 0),  # This will be a Decimal object
                 'uploaded_at': item.get('uploaded_at', ''),
                 'content_type': item.get('content_type', 'application/octet-stream')
             })
@@ -270,7 +284,7 @@ def lambda_handler(event, context):
             },
             'body': json.dumps({
                 'files': files
-            })
+            }, default=decimal_default) 
         }
         
     except ClientError as e:
